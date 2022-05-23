@@ -21,3 +21,5 @@ two mode:  8 and 4 neighbor nodes
 - expandArray8
 
 ![spp1](https://user-images.githubusercontent.com/32360441/169695901-4964ec94-f827-4280-b768-7dd5a0e69c69.jpg)
+![obstacle9](https://user-images.githubusercontent.com/32360441/169779558-273d177a-4dc6-4cc6-b59b-afaf988aa8e6.jpg)
+![obstacles19](https://user-images.githubusercontent.com/32360441/169779563-dfb80fea-d312-406a-aa97-3ee6763243d1.jpg)
