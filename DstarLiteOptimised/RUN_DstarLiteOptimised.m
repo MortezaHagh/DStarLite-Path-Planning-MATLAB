@@ -31,7 +31,7 @@ Model.adjType = '4adj';          % '4adj'  '8adj'
 % model = addRobotToModel(model);
 
 %% Create My Model
-Model=createModelAstar(Model);
+Model=createModelBase(Model);
 Model = createModelDstarLite(Model);
 
 %% # optimal path by Astar
