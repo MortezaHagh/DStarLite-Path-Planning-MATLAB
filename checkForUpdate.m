@@ -1,22 +1,22 @@
-function [open, RHS, newobstNode, model] = checkForUpdate(open, RHS, newobstNode, model, G, t, s_start)
+function [Open, RHS, newobstNode, Model] = checkForUpdate(Open, RHS, newobstNode, Model, G, t, Start)
 
-% check for update cost
+% check for Map change
 if t==4
     % update model
     newobstNode = [newobstNode 36];
-    model.obstNode(end+1) = 36;
-    model.numOfObs = model.numOfObs+1;
-    model.cost(:, newobstNode(end)) = 1000;
-    model.cost(newobstNode(end, :)) = 1000;
+    Model.Obst.nodeNumber(end+1) = 36;
+    Model.Obst.count = Model.Obst.count+1;
+    Model.cost(:, newobstNode(end)) = 1000;
+    Model.cost(newobstNode(end, :)) = 1000;
     
-    xy_ss = model.nodes.cord(:,s_start);
-    xy_sl = model.nodes.cord(:,model.s_last);
-    model.km = model.km +Distance(xy_sl(1), xy_sl(2), xy_ss(1), xy_ss(2), model.dist_type);
-    model.s_last = s_start;
+    xyStart = Start.cord;
+    xySlast = Model.sLast.cord;
+    Model.km = Model.km +Distance(xySlast(1), xySlast(2), xyStart(1), xyStart(2), Model.distType);
+    Model.sLast = Start;
     
     % update vertex
-    nodes_for_update = newobstNode(end);
-    [open, RHS] = updateVertex(open, RHS, G, nodes_for_update, model);
+    nodesForUpdate = newobstNode(end);
+    [Open, RHS] = updateVertex(Open, RHS, G, nodesForUpdate, Model);
     
 end
 

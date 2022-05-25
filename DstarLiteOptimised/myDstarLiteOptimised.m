@@ -1,5 +1,5 @@
-function [Model, Path] = myDstarLite(Model)
-% DstarLite algorithm
+function [Model, Path] = myDstarLiteOptimised(Model)
+% DstarLite Optimised Algorithm
 
 % initialization
 [G, RHS, open, Model] = initializeDstarLite(Model);

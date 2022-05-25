@@ -7,6 +7,11 @@ clc
 clear
 close
 
+% adding paths
+addpath('D:\00-Robotics\02-Robot Path Planning\Methods\Astar-Single & Multi-MATLAB')
+addpath('D:\00-Robotics\02-Robot Path Planning\Methods\Astar-Single & Multi-MATLAB\SRPP')
+addpath('D:\00-Robotics\02-Robot Path Planning\Methods\Astar-Single & Multi-MATLAB\SRPP\03-SRPP-DstarLite')
+
 %% settings
 Model.distType = 'manhattan';    % euclidean manhattan;
 Model.adjType = '4adj';          % '4adj'  '8adj'
@@ -31,7 +36,7 @@ Model = createModelDstarLite(Model);
 
 %% # optimal path by Astar
 tic
-[Model, Path] = myDstarLite(Model);
+[Model, Path] = myDstarLiteOptimised(Model);
 Sol = Path;   % path structure includes: nodes, coordinations, directions
 Sol.pTime = toc;
 Sol.smoothness = smoothness(Sol.coords);

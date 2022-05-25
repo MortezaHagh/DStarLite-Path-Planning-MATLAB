@@ -1,26 +1,26 @@
-function [open, RHS] = updateVertex(open, RHS, G, nodes_for_update, model)
+function [Open, RHS] = updateVertex(Open, RHS, G, nodesForUpdate, Model, Start)
 
-for node=nodes_for_update
-    if node~=model.targetNode
-        succ_nodes = model.successors{node};
-        [val_minG, ~] = min(G(succ_nodes) + model.cost(node, succ_nodes));
-        RHS(node) = val_minG;
+for nodeNumber=nodesForUpdate
+    if nodeNumber~=Model.Robot.targetNode
+        succNodes = Model.Successors{nodeNumber};
+        [valMinG, ~] = min(G(succNodes) + Model.cost(nodeNumber, succNodes));
+        RHS(nodeNumber) = valMinG;
     end
     
-    check = node==[open.list.node];
-    if any(check)
-        open.list(check) = [];
-        open.count = open.count-1;
+    checkInOpen = nodeNumber==[Open.List.nodeNumber];
+    if any(checkInOpen)
+        Open.List(checkInOpen) = [];
+        Open.count = Open.count-1;
     end
     
-    if G(node)~=RHS(node)
-        open.count = open.count+1;
-        op.node = node;
-        node_xy = model.nodes.cord(:,node);
-        op.cost_h = Distance(model.xs, model.ys, node_xy(1), node_xy(2), model.dist_type);
-        op.key = min(G(node), RHS(node)) + [op.cost_h+model.km; 0];
-        op.ind = open.count;
-        open.list(op.ind) = op;
+    if G(nodeNumber)~=RHS(nodeNumber)
+        Open.count = Open.count+1;
+        op.nodeNumber = nodeNumber;
+        nodeXY = Model.Nodes.cord(:,nodeNumber);
+        op.hCost = Distance(Start.cord(1), Start.cord(2), nodeXY(1), nodeXY(2), Model.distType);
+        op.key = min(G(nodeNumber), RHS(nodeNumber)) + [op.hCost+Model.km; 0];
+        op.ind = Open.count;
+        Open.List(op.ind) = op;
     end
     
 end

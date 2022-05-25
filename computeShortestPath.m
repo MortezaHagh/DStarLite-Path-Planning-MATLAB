@@ -1,40 +1,41 @@
-function [G, RHS, open, start] = computeShortestPath(G, RHS, open, start, model)
+function [G, RHS, Open, Start] = computeShortestPath(G, RHS, Open, Start, Model)
+% computeShortestPath between current startNode and targetNode
 
 % select top key
-topnode = topKey(open);
+TopNode = topKey(Open);
 
 % update start_key
-start.key = min(G(start.node), RHS(start.node))*[1; 1];
+Start.key = min(G(Start.nodeNumber), RHS(Start.nodeNumber))*[1; 1]+[Model.km; 0];
 
-while compareKeys(topnode.key, start.key) || RHS(start.node)~=G(start.node)
+while compareKeys(TopNode.key, Start.key) || RHS(Start.nodeNumber)~=G(Start.nodeNumber)
     
-    k_old = topnode.key;
-    k_new = min(G(topnode.node), RHS(topnode.node)) + [topnode.cost_h+model.km; 0];
+    k_old = TopNode.key;
+    k_new = min(G(TopNode.nodeNumber), RHS(TopNode.nodeNumber)) + [TopNode.hCost+Model.km; 0];
     
     % remove topkey from open
-    open.list(topnode.ind)=[];
-    open.count = open.count-1;
+    Open.List(TopNode.ind)=[];
+    Open.count = Open.count-1;
     
     % update vertex
-    nodes_for_update = model.successors{topnode.node};
+    nodesForUpdate = Model.Successors{TopNode.nodeNumber};
     if compareKeys(k_old, k_new)
-        open.list(end+1) = topnode;
-        open.list(end+1).key = k_new;
+        Open.List(end+1) = TopNode;
+        Open.List(end+1).key = k_new;
     else
-        if G(topnode.node)>RHS(topnode.node)
-            G(topnode.node) = RHS(topnode.node);
+        if G(TopNode.nodeNumber)>RHS(TopNode.nodeNumber)
+            G(TopNode.nodeNumber) = RHS(TopNode.nodeNumber);
         else
-            G(topnode.node) = inf;
-            nodes_for_update(end+1) = topnode.node;
+            G(TopNode.nodeNumber) = inf;
+            nodesForUpdate(end+1) = TopNode.nodeNumber;
         end
-        [open, RHS] = updateVertex(open, RHS, G, nodes_for_update, model);
+        [Open, RHS] = updateVertex(Open, RHS, G, nodesForUpdate, Model, Start);
     end
     
     % select top key
-    topnode = topKey(open);
+    TopNode = topKey(Open);
     
     % update goal_key
-    start.key = min(G(start.node), RHS(start.node))*[1; 1];
+    Start.key = min(G(Start.nodeNumber), RHS(Start.nodeNumber))*[1; 1]+[Model.km; 0];
     
 end
 
