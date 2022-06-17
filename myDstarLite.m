@@ -12,6 +12,7 @@ Path.nodeNumbers = [Model.Robot.startNode];
 Start.nodeNumber = Model.Robot.startNode;
 Start.key = min(G(Start.nodeNumber), RHS(Start.nodeNumber))*[1; 1];
 Start.cord = nodes2coords(Start.nodeNumber, Model);
+currentDir = deg2rad(Model.Robot.dir);
 Model.sLast = Start;
 
 % compute shortest path
@@ -25,8 +26,16 @@ while Start.nodeNumber~=Model.Robot.targetNode
     
     % move robot to next node
     sucNodes = Model.Successors{Start.nodeNumber};
-    [~, minInd] = min(G(sucNodes) + Model.cost(Start.nodeNumber, sucNodes));
-    Start.nodeNumber = sucNodes(minInd);
+    switch Model.expandMethod
+        case 'heading'
+            dTheta = turnCost(Start.nodeNumber, sucNodes, Model, currentDir);
+            [~, sortInds] = sortrows([G(sucNodes) + Model.cost(Start.nodeNumber, sucNodes); abs(dTheta)]');
+            Start.nodeNumber = sucNodes(sortInds(1));
+            currentDir = currentDir + dTheta(sortInds(1));
+        case 'random'
+            [~, minInd] = min(G(sucNodes) + Model.cost(Start.nodeNumber, sucNodes));
+            Start.nodeNumber = sucNodes(minInd);
+    end
     Start.coords = nodes2coords(Start.nodeNumber, Model);
     
     % move to Start.nodeNumber and add Start.nodeNumber to Path
