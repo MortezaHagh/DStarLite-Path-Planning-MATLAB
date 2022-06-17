@@ -29,7 +29,7 @@ Model = createModelDstarLite(Model);
 %% # optimal path by Astar
 tic
 [Model, Path] = myDstarLite(Model);
-Sol = Path;   % path structure includes: nodes, coordinations, directions
+Sol = Path;
 Sol.pTime = toc;
 Sol.cost = costL(Sol.coords);
 Sol.smoothness = smoothness(Sol.coords);
