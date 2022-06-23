@@ -2,8 +2,8 @@ function [Open, RHS] = updateVertex(Open, RHS, G, nodesForUpdate, Model, Start)
 
 for nodeNumber=nodesForUpdate
     if nodeNumber~=Model.Robot.targetNode
-        succNodes = Model.Successors{nodeNumber};
-        [valMinG, ~] = min(G(succNodes) + Model.cost(nodeNumber, succNodes));
+        succNodes = Model.Successors{nodeNumber,1};
+        [valMinG, ~] = min(G(succNodes) + Model.Successors{nodeNumber,2});
         RHS(nodeNumber) = valMinG;
     end
     

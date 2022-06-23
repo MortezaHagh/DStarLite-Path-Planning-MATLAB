@@ -17,7 +17,7 @@ while compareKeys(TopNode.key, Start.key) || RHS(Start.nodeNumber)~=G(Start.node
     Open.count = Open.count-1;
     
     % update vertex
-    nodesForUpdate = Model.Successors{TopNode.nodeNumber};
+    nodesForUpdate = Model.Predecessors{TopNode.nodeNumber,1};
     if compareKeys(k_old, k_new)
         Open.List(end+1) = TopNode;
         Open.List(end+1).key = k_new;

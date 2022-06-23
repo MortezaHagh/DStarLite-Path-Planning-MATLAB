@@ -25,15 +25,15 @@ Model.sLast = Start;
 while Start.nodeNumber~=Model.Robot.targetNode
     
     % move robot to next node
-    sucNodes = Model.Successors{Start.nodeNumber};
+    sucNodes = Model.Successors{Start.nodeNumber,1};
     switch Model.expandMethod
         case 'heading'
             dTheta = turnCost(Start.nodeNumber, sucNodes, Model, currentDir);
-            [~, sortInds] = sortrows([G(sucNodes) + Model.cost(Start.nodeNumber, sucNodes); abs(dTheta)]');
+            [~, sortInds] = sortrows([G(sucNodes) + Model.Successors{Start.nodeNumber,2}; abs(dTheta)]');
             Start.nodeNumber = sucNodes(sortInds(1));
             currentDir = currentDir + dTheta(sortInds(1));
         case 'random'
-            [~, minInd] = min(G(sucNodes) + Model.cost(Start.nodeNumber, sucNodes));
+            [~, minInd] = min(G(sucNodes) + Model.Successors{Start.nodeNumber,2});
             Start.nodeNumber = sucNodes(minInd);
     end
     Start.coords = nodes2coords(Start.nodeNumber, Model);

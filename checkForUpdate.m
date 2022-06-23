@@ -6,8 +6,12 @@ if t==4
     newobstNode = [newobstNode 36];
     Model.Obst.nodeNumber(end+1) = 36;
     Model.Obst.count = Model.Obst.count+1;
-    Model.cost(:, newobstNode(end)) = 1000;
-    Model.cost(newobstNode(end, :)) = 1000;
+    
+    Model.Predecessors{newobstNode,2} = Model.Predecessors{newobstNode,2}+inf;
+    for iP=Model.Predecessors{newobstNode,1}
+        indInSuc = Model.Successors{iP,1} == newobstNode;
+        Model.Successors{iP,2}(indInSuc) = Model.Successors{iP,2}(indInSuc)+inf;
+    end
     
     xyStart = Start.cord;
     xySlast = Model.sLast.cord;
@@ -15,8 +19,8 @@ if t==4
     Model.sLast = Start;
     
     % update vertex
-    nodesForUpdate = newobstNode(end);
-    [Open, RHS] = updateVertex(Open, RHS, G, nodesForUpdate, Model);
+    nodesForUpdate = Model.Predecessors{newobstNode(end),1};
+    [Open, RHS] = updateVertex(Open, RHS, G, nodesForUpdate, Model, Start);
     
 end
 

@@ -8,7 +8,7 @@ clear
 close
 
 %% settings
-Model.expandMethod = 'random';  % random or heading
+Model.expandMethod = 'random';   % random or heading
 Model.distType = 'manhattan';    % euclidean or manhattan;
 Model.adjType = '4adj';          % 4adj or 8adj
 
@@ -22,8 +22,7 @@ Model.adjType = '4adj';          % 4adj or 8adj
 % Model = addRobotToModel(Model);
 
 %% Create Map and Model by User
-% createModelBaseEmpty createModelBase
-Model=createModelBase(Model);
+Model = createModelBase(Model);
 Model = createModelDstarLite(Model);
 
 %% # optimal path by Astar
